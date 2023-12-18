@@ -84,5 +84,22 @@
         </div>
       </td>
     </tr>
+    <tr>
+      <td>
+        <div class="maintenance-mode"></div>
+        <h2>Maintenance mode:</h2>
+        <p>Maintenance mode enabled:</p>
+        <input type="checkbox" [checked]="formGroup.get('maintenance-mode').value" disabled>
+        <p>Set maintenance message:</p>
+        <div>
+          <div id="displayed-message"><i>Enter maintenance message here</i></div>
+        </div>
+      </td>
+      <td>
+        <div class="edit-maintenance-button">
+          <button mat-raised-button color="primary">Edit Settings</button>
+        </div>
+      </td>
+    </tr>
   </table>
 </div>
