@@ -12,6 +12,11 @@ export interface Cleanup {
     cleanupTime: string;
 }
 
+export interface Maintenance {
+    maintenanceMode: boolean;
+    maintenanceMessage: string;
+}
+
 @Injectable()
 export class CleanupService extends TableService<Cleanup> {
     constructor(protected http: HttpClient) {
@@ -28,6 +33,10 @@ edit(cleanupActive: string, cleanupWeekdays: string, cleanupTime: string) {
 
 getAll() {
     return this.http.get<Cleanup>(`${apiURL()}/api2/cleanup`);
+}
+
+getMaintenanceDetails() {
+    return this.http.get<Maintenance>(`${apiURL()}/api2/maintenance`);
 }
 
 

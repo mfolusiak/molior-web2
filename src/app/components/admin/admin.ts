@@ -22,7 +22,9 @@ export class AdminComponent implements OnInit{
       this.formGroup = this.formBuilder.group({
         cleanupActive: [''],
         cleanupTime: [''],
-        cleanupWeekdays: this.formBuilder.array([])
+        cleanupWeekdays: this.formBuilder.array([]),
+        maintenanceMode: [''],
+        maintenanceMessage: [''],
     });
 
     this.cleanupWeekdays.forEach(day => {
@@ -32,6 +34,7 @@ export class AdminComponent implements OnInit{
 
   ngOnInit() {
     this.getCleanupData();
+    this.getMaintenanceData();
 
   }
 
@@ -49,6 +52,17 @@ export class AdminComponent implements OnInit{
         console.log(error + "Cannot assign the data")
       }
     );
+  }
+
+  getMaintenanceData(){
+    this.cleanupService.getMaintenanceDetails().subscribe(
+      (data: any) => {
+        this.formGroup.patchValue({
+          maintenanceMode: data.maintenance_mode === 'true',
+          maintenanceMessage: data.maintenance_message,
+        })
+      }
+    )
   }
 
   mapWeekdaysToDays(receivedWeekdays: string[]) {
