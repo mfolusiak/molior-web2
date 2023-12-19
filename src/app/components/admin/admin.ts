@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AdminFormComponent } from './admin-form';
+import { AdminMaintenanceFormComponent } from './admin-maintenance-form';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { CleanupService, Cleanup } from 'src/app/services/admin.service';
 
@@ -60,7 +61,10 @@ export class AdminComponent implements OnInit{
         this.formGroup.patchValue({
           maintenanceMode: data.maintenance_mode === 'true',
           maintenanceMessage: data.maintenance_message,
-        })
+        });
+      },
+      (error) => {
+        console.error('Error fetching maintenance data:', error)
       }
     )
   }
@@ -111,6 +115,19 @@ export class AdminComponent implements OnInit{
           cleanupTime: result.cleanupTime,
         })
       }
+    });
+  }
+
+  openMaintenanceSettingsDialog() {
+    const maintenanceMode = this.formGroup.get('maintenanceMode').value;
+    const maintenanceMessage = this.formGroup.get('maintenanceMessage').value;
+  
+    const dialog = this.dialog.open(AdminMaintenanceFormComponent, {
+      width: '400px',
+      data: {
+        maintenanceMode,
+        maintenanceMessage,
+      },
     });
   }
 }

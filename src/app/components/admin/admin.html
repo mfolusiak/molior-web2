@@ -52,15 +52,17 @@
         <div class="maintenance-mode"></div>
         <h2>Maintenance mode:</h2>
         <p>Maintenance mode enabled:</p>
-        <input type="checkbox" [checked]="formGroup.get('maintenance-mode').value" disabled>
+        <input type="checkbox" [checked]="formGroup.get('maintenanceMode').value" disabled>
         <p>Set maintenance message:</p>
         <div>
-          <div id="displayed-message"><i>Enter maintenance message here</i></div>
+          <div id="displayed-message">
+            <i>{{ formGroup.get('maintenanceMessage').value }}</i>
+          </div>
         </div>
       </td>
       <td>
         <div class="edit-maintenance-button">
-          <button mat-raised-button color="primary">Edit Settings</button>
+          <button mat-raised-button color="primary" (click)="openMaintenanceSettingsDialog()">Edit Settings</button>
         </div>
       </td>
     </tr>

@@ -29,6 +29,7 @@ import {ValidationService, ValidationErrorComponent} from './services/validation
 import {AboutComponent} from './components/about/about';
 import {AdminComponent} from './components/admin/admin';
 import { AdminFormComponent } from './components/admin/admin-form';
+import { AdminMaintenanceFormComponent } from './components/admin/admin-maintenance-form';
 import {LoginComponent} from './components/login/login';
 import {AlertComponent} from './components/alert/alert';
 
@@ -127,6 +128,7 @@ import { CommonModule } from '@angular/common';
         AboutComponent,
         AdminComponent,
         AdminFormComponent,
+        AdminMaintenanceFormComponent,
         LoginComponent,
         AlertComponent,
 
@@ -251,6 +253,7 @@ import { CommonModule } from '@angular/common';
                       BuildRebuildDialogComponent,
                       BuildAbortDialogComponent,
                       AdminFormComponent,
+                      AdminMaintenanceFormComponent,
                      ],
 })
 export class AppModule { }
