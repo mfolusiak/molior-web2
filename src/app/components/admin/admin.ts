@@ -129,5 +129,15 @@ export class AdminComponent implements OnInit{
         maintenanceMessage,
       },
     });
+
+    dialog.afterClosed().subscribe(result => {
+      if (result) {
+        // Update the component's properties with the values from the dialog result
+        this.formGroup.patchValue({
+          maintenanceMode: result.maintenanceMode,
+          maintenanceMessage: result.maintenanceMessage,
+        })
+      }
+    });
   }
 }

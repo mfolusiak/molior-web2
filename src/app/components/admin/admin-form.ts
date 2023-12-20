@@ -84,13 +84,7 @@ export class AdminFormComponent implements OnInit {
         err => {
           this.alertService.error(err.error);
         }      )
-      //this.dialog.close({
-      //  cleanupActive: this.form.value.cleanupActive,
-       // cleanupTime: this.form.value.cleanupTime,
-       // weekdaysForm: { ...this.form.value },
-        
       };
-      //this.cleanupService.edit(this.form.value.cleanupActive, this.form.value.cleanupWeekdays, this.form.value.cleanupTime,)
     }
   
 
@@ -112,4 +106,3 @@ export class AdminFormComponent implements OnInit {
     this.form.patchValue({ cleanupTime: newTime });
   }
 }
-

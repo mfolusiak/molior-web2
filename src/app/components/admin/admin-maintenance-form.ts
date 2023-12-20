@@ -12,8 +12,8 @@ import { AlertService } from 'src/app/services/alert.service';
 })
 export class AdminMaintenanceFormComponent implements OnInit {
   form: FormGroup;
-  maintenanceMode: ['false]'];
-  maintenanceMessage: [''];
+  maintenanceMode: string = '';
+  maintenanceMessage: string = '';
   clicked: boolean;
 
   constructor(
@@ -27,11 +27,6 @@ export class AdminMaintenanceFormComponent implements OnInit {
       maintenanceMode: [this.data.maintenanceMode],
       maintenanceMessage: [this.data.maintenanceMessage],
     });
-
-    // Check if there's an existing selected time to populate the dropdowns
-    if (this.data.maintenanceMode) {
-      this.form.patchValue(this.maintenanceMode);
-    }
   }
   
   ngOnInit() {
@@ -40,6 +35,23 @@ export class AdminMaintenanceFormComponent implements OnInit {
       console.log(value); // Log the form value changes
     });
   }
+
+  save() {
+    if (this.form.valid) {
+      this.cleanupService.editMaintenanceDetails(
+        this.form.value.maintenanceMode.toString(),
+        this.form.value.maintenanceMessage).subscribe(
+        r => {
+          this.dialog.close({
+            maintenanceMode: this.form.value.maintenanceMode,
+            maintenanceMessage: this.form.value.maintenanceMessage,
+          });
+        },
+        err => {
+          this.alertService.error(err.error);
+        }      )
+      };
+    }
  
  }
 

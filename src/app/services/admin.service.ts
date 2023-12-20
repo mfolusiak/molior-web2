@@ -39,5 +39,10 @@ getMaintenanceDetails() {
     return this.http.get<Maintenance>(`${apiURL()}/api2/maintenance`);
 }
 
+editMaintenanceDetails(maintenanceMode: string, maintenanceMessage: string) {
+    return this.http.put(`${apiURL()}/api2/maintenance`,
+                        {maintenance_mode: maintenanceMode, maintenance_message: maintenanceMessage}
+                        );
+}
 
 }
