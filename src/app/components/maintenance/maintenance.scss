@@ -1,0 +1,22 @@
+/* Styling the body to have a purple background */
+body {
+    background-color: purple;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Styling for the container holding the maintenance message */
+  .container {
+    text-align: center;
+    color: purple;
+  }
+  
+  /* Styling the maintenance message to be bold */
+  .message {
+    font-weight: bold;
+    font-size: 60px;
+  }

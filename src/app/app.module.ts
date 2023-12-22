@@ -86,6 +86,7 @@ import {TokenListComponent, TokenDialogComponent, TokenDeleteDialogComponent} fr
 
 import {WebsocketService, MoliorService} from './services/websocket';
 import { CommonModule } from '@angular/common';
+import { MaintenanceComponent } from './components/maintenance/maintenance';
 
 @NgModule({
     declarations: [
@@ -101,6 +102,8 @@ import { CommonModule } from '@angular/common';
         BuildRebuildDialogComponent,
         BuildAbortDialogComponent,
         BuildInfoComponent,
+
+        MaintenanceComponent,
 
         MirrorListComponent,
         MirrorInfoComponent,

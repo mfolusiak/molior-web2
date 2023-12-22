@@ -29,6 +29,7 @@ import {AdminComponent} from './components/admin/admin';
 
 import {LoginComponent} from './components/login/login';
 import {AuthGuard} from './lib/auth.guard';
+import { MaintenanceComponent } from './components/maintenance/maintenance';
 
 const routes: Routes = [
     { path: 'login',                         component: LoginComponent },
@@ -77,7 +78,9 @@ const routes: Routes = [
     { path: 'tokens',                        component: TokenListComponent,      canActivate: [AuthGuard] },
     { path: 'about',                         component: AboutComponent,          canActivate: [AuthGuard] },
     { path: 'admin',                         component: AdminComponent,          canActivate: [AuthGuard],      data: { is_admin: true } },
-    { path: '**', redirectTo: '/builds'}
+    { path: 'maintenance', component: MaintenanceComponent},
+    { path: '**', redirectTo: '/builds'},
+    
 ];
 
 @NgModule({
