@@ -65,8 +65,7 @@ export class AuthGuard implements CanActivate {
                 );
 
     }
-
-    // Helper function to check maintenance mode
+    
     private checkMaintenanceMode() {
         return this.cleanupService.getMaintenanceDetails().pipe(
             map((data: any) => {
