@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
 
 import {AuthService} from '../services/auth.service';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { CleanupService } from '../services/admin.service';
 import { of } from 'rxjs';
 
@@ -45,14 +45,27 @@ export class AuthGuard implements CanActivate {
     }
 
     private checkAdminPermissions(username: string){
-        return this.authService.checkAdminPrivilege(username).pipe(
-            map((isAdmin: boolean) => {
-                if (isAdmin) {
-                    return true; // User is an admin, grant access to admin page
+        return this.checkMaintenanceMode().pipe(
+            switchMap((maintenanceMode: boolean) => {
+                if(maintenanceMode) {
+                    this.router.navigate(['/maintenance']);
+                    return of(false);
                 } else {
-                    this.router.navigate(['/unauthorized']); // Redirect non-admin users
-                    return false;
+                    return this.authService.checkAdminPrivilege(username).pipe(
+                        map((isAdmin: boolean) => {
+                            if (isAdmin) {
+                                return true; // User is an admin, grant access to admin page
+                            } else {
+                                this.router.navigate(['/unauthorized']); // Redirect non-admin users
+                                return false;
+                            }
+                        })
+                    );
                 }
+            }),
+            catchError(() => {
+                console.error('Error checking maintenance mode');
+                return of(false)
             })
         );
     }
