@@ -63,7 +63,6 @@ export class AuthGuard implements CanActivate {
                         }
                     })
                 );
-
     }
     
     private checkMaintenanceMode() {
