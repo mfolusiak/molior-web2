@@ -13,14 +13,6 @@
         </select>
       </div>
     </div>
-    <div *ngIf="form.get('cleanupWeekdays')">
-      <!-- Content to display if form.get('cleanupWeekdays') has a value -->
-      <p>has a value</p>
-    </div>
-    <div *ngIf="!form.get('cleanupWeekdays')">
-      <!-- Content to display if form.get('cleanupWeekdays') does not have a value -->
-      <p>no value</p>
-    </div>
     <div class="form-section weekdays-container">
       <p>Select the wekdays:</p>
       <div *ngFor="let day of cleanupWeekdays" class="weekday">
@@ -37,7 +29,7 @@
 <div mat-dialog-actions>
   <app-alert></app-alert>
   <button mat-button (click)="dialog.close()" [disabled]="clicked">Cancel</button>
-  <button mat-button (click)="save()" [disabled]="!form.valid || clicked">Ok</button>
+  <button mat-button (click)="save()" [disabled]="!(formModified)  || clicked">Ok</button>
 </div>
 
 

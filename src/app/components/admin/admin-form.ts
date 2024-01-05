@@ -18,6 +18,7 @@ export class AdminFormComponent implements OnInit {
   minutesArray: number[] = Array.from({ length: 60 }, (_, i) => i); // 0-59 for minutes
   cleanupActive: ['false]'];
   clicked: boolean;
+  formModified: boolean = false;
 
   constructor(
     public dialog: MatDialogRef<AdminFormComponent>,
@@ -54,6 +55,8 @@ export class AdminFormComponent implements OnInit {
   ngOnInit() {
     // Optional: You can subscribe to value changes if needed
     this.form.valueChanges.subscribe(value => {
+      console.log(value); // Log the form value changes
+      this.formModified = true;
     });
   }
 
