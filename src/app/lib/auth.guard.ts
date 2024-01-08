@@ -11,12 +11,13 @@ export class AuthGuard implements CanActivate {
     constructor(
         private router: Router,
         private authService: AuthService,
-        private cleanupService: CleanupService    ) {}
+        private cleanupService: CleanupService
+    ) {}
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const currentUser = this.authService.currentUserValue;
 
-         // Check if the route requires admin privileges
+        // Check if the route requires admin privileges
         if (route.data.is_admin && route.data.is_admin === true) {
             return this.checkAdminPermissions(currentUser.username);
         } else {
@@ -24,62 +25,58 @@ export class AuthGuard implements CanActivate {
             if (currentUser) {
                 return this.checkMaintenanceMode().pipe(
                     map((maintenanceMode: boolean) => {
-                      if (maintenanceMode) {
-                        console.log('Redirecting to maintenance page...');
-                        this.router.navigate(['/maintenance']); // Redirect to maintenance page
-                        return false;
-                      }
-                // authorised so return true
-                return true;
-            }),
-            catchError(() => {
-                console.error('Error fetching maintenance mode');
-                return of(false)
-            })
-          );
-        }
+                        if (maintenanceMode) {
+                            // Redirect all users to maintenance page except admins
+                            if (!currentUser.isAdmin) {
+                                this.router.navigate(['/maintenance']);
+                                return false;
+                            }
+                        }
+                        // Allow non-admin users to access non-admin pages
+                        return true;
+                    }),
+                    catchError(() => {
+                        console.error('Error fetching maintenance mode');
+                        return of(false);
+                    })
+                );
+            }
+
             // not logged in so redirect to login page with the return url
-            this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
-            return false;
+            this.router.navigate(['/login'], {
+                queryParams: { returnUrl: state.url }
+            });
+            return of(false);
         }
     }
 
-    private checkAdminPermissions(username: string){
-        return this.checkMaintenanceMode().pipe(
-            switchMap((maintenanceMode: boolean) => {
-                if(maintenanceMode) {
-                    this.router.navigate(['/maintenance']);
-                    return of(false);
-                } else {
-                    return this.authService.checkAdminPrivilege(username).pipe(
-                        map((isAdmin: boolean) => {
-                            if (isAdmin) {
-                                return true; // User is an admin, grant access to admin page
-                            } else {
-                                this.router.navigate(['/unauthorized']); // Redirect non-admin users
-                                return false;
-                            }
-                        })
-                    );
-                }
-            }),
-            catchError(() => {
-                console.error('Error checking maintenance mode');
-                return of(false)
-            })
-        );
+    private checkAdminPermissions(username: string) {
+
+                // Allow admin users to access admin pages
+                return this.authService.checkAdminPrivilege(username).pipe(
+                    map((isAdmin: boolean) => {
+                        if (isAdmin) {
+                            return true; // User is an admin, grant access to admin page
+                        } else {
+                            this.router.navigate(['/unauthorized']); // Redirect non-admin users
+                            return false;
+                        }
+                    })
+                );
+
     }
-      // Helper function to check maintenance mode
+
+    // Helper function to check maintenance mode
     private checkMaintenanceMode() {
         return this.cleanupService.getMaintenanceDetails().pipe(
             map((data: any) => {
                 console.log('Maintenance Data:', data);
                 return data.maintenance_mode === 'true';
             }),
-            catchError(() =>{
+            catchError(() => {
                 console.error('Error fetching maintenance details');
-                return of(false)
+                return of(false);
             })
-    );
-  }
+        );
+    }
 }
