@@ -28,11 +28,14 @@ edit(cleanupActive: string, cleanupWeekdays: string, cleanupTime: string) {
     return this.http.put(`${apiURL()}/api2/cleanup`,
                          {cleanup_active: cleanupActive, cleanup_weekdays: cleanupWeekdays, cleanup_time: cleanupTime}
                         );
-
 }
 
 getAll() {
     return this.http.get<Cleanup>(`${apiURL()}/api2/cleanup`);
+}
+
+startManualCleanup() {
+    return this.http.get<Cleanup>(`${apiURL()}/api2/cleanup/config`);
 }
 
 getMaintenanceDetails() {

@@ -118,6 +118,17 @@ export class AdminComponent implements OnInit{
     });
   }
 
+  startManualCleanup(){
+    this.cleanupService.startManualCleanup().subscribe(
+      (response)=> {
+        console.log('Manual cleanup started:', response);
+      },
+      (error) => {
+        console.error('Error starting manual cleanup:', error)
+      }
+    )
+  }
+
   openMaintenanceSettingsDialog() {
     const maintenanceMode = this.formGroup.get('maintenanceMode').value;
     const maintenanceMessage = this.formGroup.get('maintenanceMessage').value;
