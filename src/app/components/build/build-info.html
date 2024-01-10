@@ -45,10 +45,6 @@
                     {{ build.architecture }}
                 </td>
             </tr>
-            <tr *ngIf="build.parent_id">
-                <td><strong>Parent Build</strong></td>
-                <td><a *ngIf="build.parent_id" [routerLink]="['../../build', build.parent_id]">{{build.parent_id}}</a></td>
-            </tr>
         </table>
     </div>
     <div style="flex-grow: 1; text-align: right;">
