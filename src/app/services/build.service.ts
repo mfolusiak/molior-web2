@@ -23,6 +23,7 @@ export interface Build {
     branch: string;
     sourcerepository_id: number;
     parent_id: number;
+    children: {children_id: number}[];
     project: {id: number; name: string, is_mirror: boolean;
               version: {id: number; name: string; is_locked: boolean}};
     buildvariant: {name: string;
@@ -158,4 +159,3 @@ export class BuildService extends TableService<Build> {
         return this.http.delete(`${apiURL()}/api2/build/${id}`);
     }
 }
-

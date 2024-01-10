@@ -98,6 +98,7 @@ export class BuildInfoComponent implements OnInit, OnDestroy, AfterViewInit {
             branch: '',
             sourcerepository_id: 0,
             parent_id: 0,
+            children: [],
             project: { id: 0, name: '', is_mirror: false, version: { id: 0, name: '', is_locked: false }},
             buildvariant: { name: '', architecture: { id: 0, name: '' }, base_mirror: { id: 0, name: '', version: '' }},
             progress: null
@@ -237,6 +238,10 @@ export class BuildInfoComponent implements OnInit, OnDestroy, AfterViewInit {
     fetchLogs(id: number) {
         this.buildService.get(id).subscribe((res: Build) => {
             this.build = res;
+            console.log('Children IDs:', this.build.children);
+            this.build.children.forEach(child => {
+                console.log(child.children_id);
+            })
             const tbody = document.getElementById('buildlog') as HTMLTableElement;
             tbody.innerHTML = '';
             this.loglines = 0;
