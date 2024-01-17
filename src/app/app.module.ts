@@ -27,7 +27,8 @@ import {AppComponent} from './app.component';
 
 import {ValidationService, ValidationErrorComponent} from './services/validation.service';
 import {AboutComponent} from './components/about/about';
-import {AdminComponent} from './components/admin/admin';
+import {AdminComponent, AdminRetentionComponent} from './components/admin/admin';
+import { AdminMaintenanceComponent } from './components/admin/admin';
 import { AdminFormComponent } from './components/admin/admin-form';
 import { AdminMaintenanceFormComponent } from './components/admin/admin-maintenance-form';
 import {LoginComponent} from './components/login/login';
@@ -130,6 +131,8 @@ import { MaintenanceComponent } from './components/maintenance/maintenance';
 
         AboutComponent,
         AdminComponent,
+        AdminRetentionComponent,
+        AdminMaintenanceComponent,
         AdminFormComponent,
         AdminMaintenanceFormComponent,
         LoginComponent,

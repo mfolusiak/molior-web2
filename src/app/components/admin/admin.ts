@@ -16,7 +16,7 @@ export class AdminComponent implements OnInit{
   cleanupWeekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
   constructor(
-    public dialog: MatDialog, 
+    public dialog: MatDialog,
     private cleanupService: CleanupService,
     public formBuilder: FormBuilder
     ) {
@@ -87,7 +87,7 @@ export class AdminComponent implements OnInit{
 
     const cleanupTime = this.formGroup.get('cleanupTime').value;
     const cleanupActive = this.formGroup.get('cleanupActive').value;
-  
+
     const dialog = this.dialog.open(AdminFormComponent, {
       width: '400px',
       data: {
@@ -132,7 +132,7 @@ export class AdminComponent implements OnInit{
   openMaintenanceSettingsDialog() {
     const maintenanceMode = this.formGroup.get('maintenanceMode').value;
     const maintenanceMessage = this.formGroup.get('maintenanceMessage').value;
-  
+
     const dialog = this.dialog.open(AdminMaintenanceFormComponent, {
       width: '400px',
       data: {
@@ -151,4 +151,79 @@ export class AdminComponent implements OnInit{
       }
     });
   }
+}
+
+@Component({
+  selector: 'app-admin-retention',
+  templateUrl: './admin-retention.html',
+  styleUrls: ['./admin.scss'],
+})
+export class AdminRetentionComponent {
+  formGroup: FormGroup
+
+  }
+
+
+@Component({
+  selector: 'app-admin-maintenance',
+  templateUrl: './admin-maintenance.html',
+  styleUrls: ['./admin.scss'],
+})
+export class AdminMaintenanceComponent implements OnInit{
+
+  formGroup: FormGroup
+
+  constructor(
+    public dialog: MatDialog,
+    private cleanupService: CleanupService,
+    public formBuilder: FormBuilder
+    ) {
+      this.formGroup = this.formBuilder.group({
+        maintenanceMode: [''],
+        maintenanceMessage: [''],
+    });
+  }
+
+  ngOnInit() {
+    this.getMaintenanceData();
+
+  }
+
+  getMaintenanceData(){
+    this.cleanupService.getMaintenanceDetails().subscribe(
+      (data: any) => {
+        this.formGroup.patchValue({
+          maintenanceMode: data.maintenance_mode === 'true',
+          maintenanceMessage: data.maintenance_message,
+        });
+      },
+      (error) => {
+        console.error('Error fetching maintenance data:', error)
+      }
+    )
+  }
+
+  openMaintenanceSettingsDialog() {
+    const maintenanceMode = this.formGroup.get('maintenanceMode').value;
+    const maintenanceMessage = this.formGroup.get('maintenanceMessage').value;
+
+    const dialog = this.dialog.open(AdminMaintenanceFormComponent, {
+      width: '400px',
+      data: {
+        maintenanceMode,
+        maintenanceMessage,
+      },
+    });
+
+    dialog.afterClosed().subscribe(result => {
+      if (result) {
+        // Update the component's properties with the values from the dialog result
+        this.formGroup.patchValue({
+          maintenanceMode: result.maintenanceMode,
+          maintenanceMessage: result.maintenanceMessage,
+        })
+      }
+    });
+  }
+
 }
